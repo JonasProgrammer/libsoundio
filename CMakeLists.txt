@@ -233,7 +233,7 @@ if(BUILD_DYNAMIC_LIBS)
         LINKER_LANGUAGE C
     )
     target_link_libraries(libsoundio_shared LINK_PUBLIC ${LIBSOUNDIO_LIBS})
-    target_include_directories(libsoundio_shared PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    target_include_directories(libsoundio_shared PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
     install(TARGETS libsoundio_shared EXPORT libsoundio-export)
 endif()
 
@@ -245,7 +245,7 @@ if(BUILD_STATIC_LIBS)
         LINKER_LANGUAGE C
     )
     target_link_libraries(libsoundio_static PUBLIC ${LIBSOUNDIO_LIBS})
-    target_include_directories(libsoundio_static PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    target_include_directories(libsoundio_static PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
     install(TARGETS libsoundio_static EXPORT libsoundio-export)
 endif()
 
@@ -380,27 +380,4 @@ endif()
 add_custom_target(doc
     WORKING_DIRECTORY ${libsoundio_BINARY_DIR}
     COMMAND doxygen ${DOXYGEN_CONF_FILE}
-)
-
-
-
-message("\n"
-    "Installation Summary\n"
-    "--------------------\n"
-    "* Install Directory            : ${CMAKE_INSTALL_PREFIX}\n"
-    "* Build Type                   : ${CMAKE_BUILD_TYPE}\n"
-    "* Build static libs            : ${BUILD_STATIC_LIBS}\n"
-    "* Build examples               : ${BUILD_EXAMPLE_PROGRAMS}\n"
-    "* Build tests                  : ${BUILD_TESTS}\n"
-)
-
-message(
-    "System Dependencies\n"
-    "-------------------\n"
-    "* threads                      : ${STATUS_THREADS}\n"
-    "* JACK       (optional)        : ${STATUS_JACK}\n"
-    "* PulseAudio (optional)        : ${STATUS_PULSEAUDIO}\n"
-    "* ALSA       (optional)        : ${STATUS_ALSA}\n"
-    "* CoreAudio  (optional)        : ${STATUS_COREAUDIO}\n"
-    "* WASAPI     (optional)        : ${STATUS_WASAPI}\n"
 )
